@@ -51,8 +51,8 @@ class WebSocketService {
       this.subscriptions.forEach((sub) => {
         try {
           sub.unsubscribe();
-        } catch (_) {
-          // ignore
+        } catch (err) {
+          console.error('[WebSocket] Failed to unsubscribe during disconnect:', err);
         }
       });
       this.subscriptions.clear();
@@ -81,8 +81,8 @@ class WebSocketService {
           if (sub) {
             try {
               sub.unsubscribe();
-            } catch (_) {
-              // ignore
+            } catch (err) {
+              console.error(`[WebSocket] Failed to unsubscribe from ${destination}:`, err);
             }
             this.subscriptions.delete(destination);
           }

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import {
   Layout,
   Table,
@@ -104,11 +104,13 @@ const ReportsPage: React.FC = () => {
     setUserModalOpen(true);
   };
 
-  const realtimeReportIds = new Set(realtimeReports.map((r) => r.id));
-  const allReports = [
-    ...realtimeReports.filter((r) => !filter.status || r.status === filter.status),
-    ...(reportsData?.content || []).filter((r) => !realtimeReportIds.has(r.id)),
-  ];
+  const allReports = useMemo(() => {
+    const realtimeReportIds = new Set(realtimeReports.map((r) => r.id));
+    return [
+      ...realtimeReports.filter((r) => !filter.status || r.status === filter.status),
+      ...(reportsData?.content || []).filter((r) => !realtimeReportIds.has(r.id)),
+    ];
+  }, [realtimeReports, reportsData, filter.status]);
 
   const columns: ColumnsType<Report> = [
     {

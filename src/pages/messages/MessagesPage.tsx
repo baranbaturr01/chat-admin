@@ -113,10 +113,14 @@ const MessagesPage: React.FC = () => {
     }));
   };
 
-  // Realtime + fetched messages combined
-  const displayedMessages = showRealtime
-    ? [...realtimeMessages, ...(messagesData?.content || [])]
-    : messagesData?.content || [];
+  // Realtime + fetched messages combined (deduped by id)
+  const displayedMessages = React.useMemo(() => {
+    const fetched = messagesData?.content || [];
+    if (!showRealtime) return fetched;
+    const fetchedIds = new Set(fetched.map((m) => m.id));
+    const uniqueRealtime = realtimeMessages.filter((m) => !fetchedIds.has(m.id));
+    return [...uniqueRealtime, ...fetched];
+  }, [showRealtime, realtimeMessages, messagesData]);
 
   const columns: ColumnsType<Message> = [
     {

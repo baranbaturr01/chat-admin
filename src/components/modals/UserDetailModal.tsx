@@ -146,7 +146,12 @@ const UserDetailModal: React.FC<UserDetailModalProps> = ({ user, open, onClose }
             />
           </Col>
           <Col span={8}>
-            <Statistic title="Rol" value=" " prefix={<Tag color={roleColor[user.role]}>{user.role}</Tag>} />
+            <div>
+              <div style={{ marginBottom: 4, color: 'rgba(0,0,0,0.45)', fontSize: 14 }}>Rol</div>
+              <Tag color={roleColor[user.role]} style={{ fontSize: 14, padding: '2px 10px' }}>
+                {user.role}
+              </Tag>
+            </div>
           </Col>
         </Row>
 

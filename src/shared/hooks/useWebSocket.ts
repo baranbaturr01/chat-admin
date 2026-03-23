@@ -24,7 +24,7 @@ export const useWebSocket = () => {
           addRealtimeReport(wsMsg.payload as Report);
           notification.warning({
             message: 'Yeni Rapor',
-            description: `Mesaj raporlandı: "${(wsMsg.payload as Report).messageContent?.slice(0, 50)}..."`,
+            description: `Mesaj raporlandı: "${(wsMsg.payload as Report).messageContent?.slice(0, 50)}${((wsMsg.payload as Report).messageContent?.length ?? 0) > 50 ? '...' : ''}"`,
             duration: 5,
           });
           break;
